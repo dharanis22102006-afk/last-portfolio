@@ -1,3 +1,4 @@
+// src/App.jsx
 import React, { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
@@ -9,9 +10,11 @@ import "./index.css";
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isDark, setIsDark] = useState(false);
 
+  // Typed.js, active nav, back-to-top, animations
   useEffect(() => {
-    // Typed animation
+    // Typed animation (if script is loaded in index.html)
     if (window.Typed) {
       new window.Typed(".typing", {
         strings: ["Dharani S", "a Web Developer", "a CSE Student", "a Tech Enthusiast"],
@@ -28,8 +31,10 @@ function App() {
     const handleScrollNav = () => {
       let current = "";
       sections.forEach((section) => {
-        const sectionTop = section.offsetTop - 150;
-        if (window.scrollY >= sectionTop) current = section.getAttribute("id");
+        const top = section.offsetTop - 150;
+        if (window.scrollY >= top) {
+          current = section.getAttribute("id");
+        }
       });
 
       navLinks.forEach((link) => {
@@ -45,48 +50,68 @@ function App() {
     // Back to top
     const backToTop = document.getElementById("backToTop");
     const handleBackToTopVisibility = () => {
+      if (!backToTop) return;
       backToTop.style.display = window.scrollY > 300 ? "block" : "none";
     };
-    const handleBackToTopClick = () =>
+    const handleBackToTopClick = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
+    };
 
     window.addEventListener("scroll", handleBackToTopVisibility);
-    backToTop.addEventListener("click", handleBackToTopClick);
+    if (backToTop) {
+      backToTop.addEventListener("click", handleBackToTopClick);
+    }
 
-    // Dark Mode
-    const toggle = document.getElementById("themeToggle");
-    toggle.addEventListener("click", () => {
-      document.body.classList.toggle("dark-mode");
-      toggle.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
-    });
-
-    // Fade-in & slide-in animations
+    // IntersectionObserver for fade/slide in
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) entry.target.classList.add("visible");
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
       });
     });
 
-    document.querySelectorAll(".fade-in, .slide-in").forEach((el) => observer.observe(el));
+    document
+      .querySelectorAll(".fade-in, .slide-in")
+      .forEach((el) => observer.observe(el));
 
     return () => {
       window.removeEventListener("scroll", handleScrollNav);
+      window.removeEventListener("scroll", handleBackToTopVisibility);
+      if (backToTop) {
+        backToTop.removeEventListener("click", handleBackToTopClick);
+      }
+      observer.disconnect();
     };
   }, []);
 
+  // React-controlled dark mode: update body class whenever isDark changes
+  useEffect(() => {
+    document.body.classList.toggle("dark-mode", isDark);
+  }, [isDark]);
+
   return (
     <>
+      {/* Sidebar */}
       <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-      {/* Sidebar toggle button */}
-      <button className="sidebar-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
+      {/* Sidebar toggle button (left chevron / burger) */}
+      <button
+        className="sidebar-toggle"
+        onClick={() => setSidebarOpen((prev) => !prev)}
+      >
         {sidebarOpen ? "⟨" : "☰"}
       </button>
 
-      {/* Dark Mode Toggle */}
-      <button id="themeToggle">🌙</button>
+      {/* Theme toggle button (dark / light) */}
+      <button
+        id="themeToggle"
+        onClick={() => setIsDark((prev) => !prev)}
+      >
+        {isDark ? "☀️" : "🌙"}
+      </button>
 
-      {/* FULL PAGE MAIN CONTENT */}
+      {/* Main content – always rendered, scroll page sections */}
       <main>
         <Home />
         <About />
@@ -95,6 +120,7 @@ function App() {
         <Footer />
       </main>
 
+      {/* Back to top button */}
       <button id="backToTop">↑</button>
     </>
   );

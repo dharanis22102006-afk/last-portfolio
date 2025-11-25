@@ -1,3 +1,4 @@
+// src/components/Navbar.jsx
 import React from "react";
 import profilePic from "../assets/dharani.jpg";
 
@@ -10,37 +11,22 @@ function Navbar({ sidebarOpen, setSidebarOpen }) {
 
       <ul>
         <li>
-          <a
-            href="#home"
-            onClick={() => setSidebarOpen(false)}   // <-- CLOSE SIDEBAR
-          >
+          <a href="#home" onClick={() => setSidebarOpen(false)}>
             Home
           </a>
         </li>
-
         <li>
-          <a
-            href="#about"
-            onClick={() => setSidebarOpen(false)}   // <-- CLOSE SIDEBAR
-          >
+          <a href="#about" onClick={() => setSidebarOpen(false)}>
             About
           </a>
         </li>
-
         <li>
-          <a
-            href="#projects"
-            onClick={() => setSidebarOpen(false)}   // <-- CLOSE SIDEBAR
-          >
+          <a href="#projects" onClick={() => setSidebarOpen(false)}>
             Projects
           </a>
         </li>
-
         <li>
-          <a
-            href="#contact"
-            onClick={() => setSidebarOpen(false)}   // <-- CLOSE SIDEBAR
-          >
+          <a href="#contact" onClick={() => setSidebarOpen(false)}>
             Contact
           </a>
         </li>
