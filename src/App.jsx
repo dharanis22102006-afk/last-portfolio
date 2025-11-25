@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import About from "./components/About";
@@ -8,33 +8,28 @@ import Footer from "./components/Footer";
 import "./index.css";
 
 function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
   useEffect(() => {
-    // Typing animation (Typed.js from CDN in index.html)
+    // Typed animation
     if (window.Typed) {
       new window.Typed(".typing", {
-        strings: [
-          "Dharani S",
-          "a Web Developer",
-          "a CSE Student",
-          "a Tech Enthusiast",
-        ],
+        strings: ["Dharani S", "a Web Developer", "a CSE Student", "a Tech Enthusiast"],
         typeSpeed: 80,
         backSpeed: 40,
         loop: true,
       });
     }
 
-    // Active nav highlight on scroll
+    // Active nav highlight
     const sections = document.querySelectorAll("section");
     const navLinks = document.querySelectorAll("nav a");
 
     const handleScrollNav = () => {
       let current = "";
       sections.forEach((section) => {
-        const sectionTop = section.offsetTop - 120;
-        if (window.scrollY >= sectionTop) {
-          current = section.getAttribute("id");
-        }
+        const sectionTop = section.offsetTop - 150;
+        if (window.scrollY >= sectionTop) current = section.getAttribute("id");
       });
 
       navLinks.forEach((link) => {
@@ -47,84 +42,59 @@ function App() {
 
     window.addEventListener("scroll", handleScrollNav);
 
-    // Back to Top button
+    // Back to top
     const backToTop = document.getElementById("backToTop");
-
     const handleBackToTopVisibility = () => {
-      if (!backToTop) return;
       backToTop.style.display = window.scrollY > 300 ? "block" : "none";
     };
-
-    const handleBackToTopClick = () => {
+    const handleBackToTopClick = () =>
       window.scrollTo({ top: 0, behavior: "smooth" });
-    };
 
     window.addEventListener("scroll", handleBackToTopVisibility);
-    if (backToTop) {
-      backToTop.addEventListener("click", handleBackToTopClick);
-    }
+    backToTop.addEventListener("click", handleBackToTopClick);
 
-    // Dark mode toggle
+    // Dark Mode
     const toggle = document.getElementById("themeToggle");
-    const handleThemeToggle = () => {
+    toggle.addEventListener("click", () => {
       document.body.classList.toggle("dark-mode");
-      if (toggle) {
-        toggle.textContent = document.body.classList.contains("dark-mode")
-          ? "☀️"
-          : "🌙";
-      }
-    };
+      toggle.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
+    });
 
-    if (toggle) {
-      toggle.addEventListener("click", handleThemeToggle);
-    }
-
-    // IntersectionObserver for fade/slide in (ALWAYS runs – not inside emailjs)
+    // Fade-in & slide-in animations
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-        }
+        if (entry.isIntersecting) entry.target.classList.add("visible");
       });
     });
 
-    document
-      .querySelectorAll(".fade-in, .slide-in")
-      .forEach((el) => observer.observe(el));
+    document.querySelectorAll(".fade-in, .slide-in").forEach((el) => observer.observe(el));
 
-    // Cleanup
     return () => {
       window.removeEventListener("scroll", handleScrollNav);
-      window.removeEventListener("scroll", handleBackToTopVisibility);
-      if (backToTop) {
-        backToTop.removeEventListener("click", handleBackToTopClick);
-      }
-      if (toggle) {
-        toggle.removeEventListener("click", handleThemeToggle);
-      }
-      observer.disconnect();
     };
   }, []);
 
   return (
     <>
-      <Navbar />
+      <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-      {/* Theme Toggle */}
+      {/* Sidebar toggle button */}
+      <button className="sidebar-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
+        {sidebarOpen ? "⟨" : "☰"}
+      </button>
+
+      {/* Dark Mode Toggle */}
       <button id="themeToggle">🌙</button>
 
-      {/* Main Content – now using components */}
+      {/* FULL PAGE MAIN CONTENT */}
       <main>
         <Home />
-        {/* About component will render your About section */}
         <About />
         <Projects />
         <Contact />
+        <Footer />
       </main>
 
-      <Footer />
-
-      {/* Back to Top */}
       <button id="backToTop">↑</button>
     </>
   );

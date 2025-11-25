@@ -1,19 +1,23 @@
 import React from "react";
+import portfolioTitle from "../assets/portfolio-title.png";
+import ecommerceTitle from "../assets/ecommerece.png";
 
 function Projects() {
   return (
-    <section id="projects">
+    <section id="projects" className="fade-in">
       <h2>Projects</h2>
 
       <div className="project-container">
 
-        {/* Project 1 */}
-        <div className="project-card slide-in">
-          <h3>Portfolio Website</h3>
+        {/* Portfolio Website */}
+        <div className="project-card alive">
+          <img src={portfolioTitle} className="project-title-img" alt="Portfolio" />
+
           <p>
-            A personal portfolio website built using HTML, CSS, and JavaScript —
-            showcasing my skills, projects, and contact information.
+            A modern and responsive portfolio website showcasing my skills and
+            journey in web development using HTML, CSS, JavaScript, and React.
           </p>
+
           <a
             href="https://dharanis22102006-afk.github.io/portfolio/"
             target="_blank"
@@ -24,12 +28,15 @@ function Projects() {
           </a>
         </div>
 
-        {/* Project 2 */}
-        <div className="project-card slide-in">
-          <h3>E-Commerce Website</h3>
+        {/* Ecommerce Website */}
+        <div className="project-card alive">
+          <img src={ecommerceTitle} className="project-title-img" alt="E-commerce" />
+
           <p>
-            An elegant and responsive e-commerce website with a modern UI and product listings.
+            A clean and responsive e-commerce website offering a smooth shopping
+            experience with organized product listings.
           </p>
+
           <a
             href="https://dharanis22102006-afk.github.io/E-commerce-website/"
             target="_blank"
@@ -39,7 +46,6 @@ function Projects() {
             🔗 View Live
           </a>
         </div>
-
       </div>
     </section>
   );
