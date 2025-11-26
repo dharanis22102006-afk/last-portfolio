@@ -10,29 +10,41 @@ import "./index.css";
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [isDark, setIsDark] = useState(false);
 
-  // Typed.js, active nav, back-to-top, animations
   useEffect(() => {
-    // Typed animation (if script is loaded in index.html)
+    // Typed.js (safe init + destroy)
     if (window.Typed) {
-      new window.Typed(".typing", {
-        strings: ["Dharani S", "a Web Developer", "a CSE Student", "a Tech Enthusiast"],
-        typeSpeed: 80,
-        backSpeed: 40,
+      if (window._typedInstance?.destroy) {
+        try { window._typedInstance.destroy(); } catch (e) {}
+      }
+
+      window._typedInstance = new window.Typed(".typing", {
+        strings: [
+          "Dharani S",
+          "a Web Developer",
+          "a CSE Student",
+          "a Tech Enthusiast",
+        ],
+        typeSpeed: 50,
+        backSpeed: 30,
+        startDelay: 300,
+        backDelay: 1600,
+        smartBackspace: true,
         loop: true,
+        showCursor: true,
+        cursorChar: "|",
       });
     }
 
-    // Active nav highlight
+    // Active nav highlight on scroll
     const sections = document.querySelectorAll("section");
     const navLinks = document.querySelectorAll("nav a");
 
     const handleScrollNav = () => {
       let current = "";
       sections.forEach((section) => {
-        const top = section.offsetTop - 150;
-        if (window.scrollY >= top) {
+        const sectionTop = section.offsetTop - 120;
+        if (window.scrollY >= sectionTop) {
           current = section.getAttribute("id");
         }
       });
@@ -47,7 +59,7 @@ function App() {
 
     window.addEventListener("scroll", handleScrollNav);
 
-    // Back to top
+    // Back to Top
     const backToTop = document.getElementById("backToTop");
     const handleBackToTopVisibility = () => {
       if (!backToTop) return;
@@ -56,72 +68,106 @@ function App() {
     const handleBackToTopClick = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     };
-
     window.addEventListener("scroll", handleBackToTopVisibility);
-    if (backToTop) {
-      backToTop.addEventListener("click", handleBackToTopClick);
-    }
+    if (backToTop) backToTop.addEventListener("click", handleBackToTopClick);
+
+    // Theme toggle
+    const toggle = document.getElementById("themeToggle");
+    const updateThemeToggleText = () => {
+      if (toggle) {
+        toggle.textContent = document.body.classList.contains("dark-mode")
+          ? "☀️"
+          : "🌙";
+      }
+    };
+    updateThemeToggleText();
+
+    const handleThemeToggle = () => {
+      document.body.classList.toggle("dark-mode");
+      updateThemeToggleText();
+    };
+    if (toggle) toggle.addEventListener("click", handleThemeToggle);
 
     // IntersectionObserver for fade/slide in
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-        }
+        if (entry.isIntersecting) entry.target.classList.add("visible");
       });
     });
+    document.querySelectorAll(".fade-in, .slide-in").forEach((el) => observer.observe(el));
 
-    document
-      .querySelectorAll(".fade-in, .slide-in")
-      .forEach((el) => observer.observe(el));
+    // sync body class for sidebar
+    document.body.classList.toggle("sidebar-closed", !sidebarOpen);
 
+    // cleanup
     return () => {
       window.removeEventListener("scroll", handleScrollNav);
       window.removeEventListener("scroll", handleBackToTopVisibility);
-      if (backToTop) {
-        backToTop.removeEventListener("click", handleBackToTopClick);
-      }
+      if (backToTop) backToTop.removeEventListener("click", handleBackToTopClick);
+      if (toggle) toggle.removeEventListener("click", handleThemeToggle);
       observer.disconnect();
+      // optional: destroy typed instance on unmount
+      if (window._typedInstance?.destroy) {
+        try { window._typedInstance.destroy(); } catch (e) {}
+      }
     };
-  }, []);
+  }, [sidebarOpen]);
 
-  // React-controlled dark mode: update body class whenever isDark changes
-  useEffect(() => {
-    document.body.classList.toggle("dark-mode", isDark);
-  }, [isDark]);
+  // Toggle handler that updates body class too
+  const toggleSidebar = () => {
+    setSidebarOpen((prev) => {
+      const next = !prev;
+      document.body.classList.toggle("sidebar-closed", !next);
+      return next;
+    });
+  };
 
   return (
     <>
+      {/* Cinematic background layers (keep these first so UI overlays appear above them) */}
+      <div className="animated-bg" aria-hidden="true" />
+      <div className="glow" aria-hidden="true" />
+
       {/* Sidebar */}
       <Navbar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-      {/* Sidebar toggle button (left chevron / burger) */}
+      {/* Sidebar toggle (keeps visible when sidebar closed) */}
       <button
         className="sidebar-toggle"
-        onClick={() => setSidebarOpen((prev) => !prev)}
+        aria-label="Toggle sidebar"
+        onClick={toggleSidebar}
       >
         {sidebarOpen ? "⟨" : "☰"}
       </button>
 
-      {/* Theme toggle button (dark / light) */}
-      <button
-        id="themeToggle"
-        onClick={() => setIsDark((prev) => !prev)}
-      >
-        {isDark ? "☀️" : "🌙"}
-      </button>
+      {/* Theme Toggle */}
+      <button id="themeToggle" title="Toggle theme">🌙</button>
 
-      {/* Main content – always rendered, scroll page sections */}
+      {/* Main content (centered). Each component wrapped in a .page-card */}
       <main>
-        <Home />
-        <About />
-        <Projects />
-        <Contact />
-        <Footer />
+        <div className="content">
+          <div className="page-card">
+            <Home />
+          </div>
+
+          <div className="page-card">
+            <About />
+          </div>
+
+          <div className="page-card">
+            <Projects />
+          </div>
+
+          <div className="page-card">
+            <Contact />
+          </div>
+
+          <Footer />
+        </div>
       </main>
 
-      {/* Back to top button */}
-      <button id="backToTop">↑</button>
+      {/* Back to top */}
+      <button id="backToTop" aria-label="Back to top">↑</button>
     </>
   );
 }
