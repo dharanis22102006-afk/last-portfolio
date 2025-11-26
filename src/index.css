@@ -78,6 +78,22 @@ nav a, .nav-btn {
   width: 100%;
   cursor: pointer;
 }
+/* FIX: Prevent active bar from extending outside the sidebar */
+nav {
+  overflow: hidden; /* stops highlight bar from spilling out */
+}
+
+nav a.active,
+nav .nav-btn.active {
+  width: 100% !important;      /* stays within sidebar */
+  box-sizing: border-box;      /* doesn't overflow */
+  display: block;              /* prevents horizontal stretching */
+}
+
+nav li {
+  width: 100%;
+  overflow: hidden;             /* ensures no children spill outside */
+}
 
 nav a:hover, .nav-btn:hover,
 nav a.active, .nav-btn.active {
@@ -493,3 +509,159 @@ main {
 /*
 * { outline: 0.5px dashed rgba(0,0,0,0.04) !important; }
 */
+/* prevents anchored sections from being hidden under fixed sidebar/header */
+section[id] { scroll-margin-top: 120px; }
+/* Starry background (light mode only) */
+.starry-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.star {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  opacity: 0;
+  animation: twinkle 2s infinite ease-in-out;
+}
+
+/* Twinkle animation */
+@keyframes twinkle {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+/* When DARK MODE → REMOVE stars entirely */
+body.dark-mode .starry-bg {
+  display: none !important;
+}
+/* ------------------------------
+   PROJECT CARD – Enhanced Hover Glow + Lift + Magnetic Effect
+------------------------------ */
+
+/* Base smooth transition */
+.project-card {
+  position: relative;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  cursor: pointer;
+}
+
+/* Soft glow using a blurred radial spotlight */
+.project-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--x, 50%) var(--y, 50%),
+    rgba(0, 180, 190, 0.25),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  filter: blur(25px);
+}
+
+/* When hovering: increase glow + lift */
+.project-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 18px 45px rgba(0, 123, 131, 0.35);
+}
+
+.project-card:hover::before {
+  opacity: 1;
+}
+/* Make all text brighter in dark mode */
+body.dark-mode {
+    color: #e8faff !important;       /* brighter white-teal tint */
+}
+
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode li,
+body.dark-mode label,
+body.dark-mode input,
+body.dark-mode textarea {
+    color: #e8faff !important;
+}
+/* Section titles like 'About Me', 'Projects' */
+body.dark-mode h2 {
+    color: #5fe3ff !important;    /* bright neon aqua */
+}
+body.dark-mode .skills li {
+    background-color: rgba(95, 227, 255, 0.15) !important;
+    color: #7cf2ff !important;
+    border: 1px solid #48d4e8;
+}
+body.dark-mode .project-card {
+    background: rgba(255,255,255,0.03) !important;
+    color: #dffaff !important;
+}
+
+body.dark-mode .project-card p {
+    color: #dffaff !important;
+}
+body.dark-mode .typing,
+body.dark-mode h1,
+body.dark-mode h3 {
+    color: #aef6ff !important;
+}
+body.dark-mode .btn {
+    background: #00bcd4 !important;
+    color: #fff !important;
+}
+
+body.dark-mode .btn:hover {
+    background: #01a3b5 !important;
+}
+/* Bright sidebar text in dark mode */
+body.dark-mode nav a,
+body.dark-mode nav .nav-btn {
+  color: #e8f8f8 !important;  /* brighter text */
+  opacity: 1 !important;      /* remove dim look */
+}
+
+/* Bright active link */
+body.dark-mode nav a.active,
+body.dark-mode nav .nav-btn.active {
+  color: #ffffff !important;
+  background-color: #007b83 !important;
+  font-weight: 700;
+}
+
+/* Bright hover */
+body.dark-mode nav a:hover,
+body.dark-mode nav .nav-btn:hover {
+  color: #ffffff !important;
+}
+/* ------------------------------
+   Contact Form Dark Theme Upgrade
+------------------------------ */
+
+body.dark-mode .page-card form input[type="text"],
+body.dark-mode .page-card form input[type="email"],
+body.dark-mode .page-card form textarea {
+  background: #071821;                 /* deep dark blue (matches theme) */
+  color: #dff9ff;                      /* light text (same as project card text) */
+  border: 1px solid #0a2c34;           /* subtle border */
+  box-shadow: 0 0 8px rgba(0, 180, 200, 0.25); /* gentle glow */
+}
+
+body.dark-mode .page-card form input::placeholder,
+body.dark-mode .page-card form textarea::placeholder {
+  color: #6fbec9;                      /* soft aqua placeholder text */
+}
+
+body.dark-mode .page-card form input:focus,
+body.dark-mode .page-card form textarea:focus {
+  border-color: #00b5c0;
+  box-shadow: 0 0 12px rgba(0, 200, 220, 0.45);
+  outline: none;
+}

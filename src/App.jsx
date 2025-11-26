@@ -111,7 +111,48 @@ function App() {
         try { window._typedInstance.destroy(); } catch (e) {}
       }
     };
+    // Magnetic glow follow effect for project cards
+document.querySelectorAll(".project-card").forEach((card) => {
+  card.addEventListener("mousemove", (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty("--x", `${x}px`);
+    card.style.setProperty("--y", `${y}px`);
+  });
+});
+
   }, [sidebarOpen]);
+useEffect(() => {
+  // Create container
+  const starContainer = document.createElement("div");
+  starContainer.className = "starry-bg";
+  document.body.appendChild(starContainer);
+
+  // generate stars only in LIGHT MODE
+  if (!document.body.classList.contains("dark-mode")) {
+    const numStars = 80;
+
+    for (let i = 0; i < numStars; i++) {
+      const star = document.createElement("div");
+      const size = Math.random() * 3 + 1;
+      const x = Math.random() * 100;
+      const y = Math.random() * 100;
+      const delay = Math.random() * 4;
+
+      star.className = "star";
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+      star.style.top = `${y}vh`;
+      star.style.left = `${x}vw`;
+      star.style.animationDelay = `${delay}s`;
+
+      starContainer.appendChild(star);
+    }
+  }
+
+  return () => starContainer.remove();
+}, []);
 
   // Toggle handler that updates body class too
   const toggleSidebar = () => {
