@@ -794,3 +794,149 @@ body.dark-mode footer p {
     width: 100%;
   }
 }
+/* --- Glow + Soft Floating Animation --- */
+.project-animate {
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.project-animate:hover {
+  transform: translateY(-12px) scale(1.04);
+  box-shadow: 0 20px 45px rgba(0, 123, 131, 0.35);
+}
+
+/* Gentle continuous floating */
+.project-animate {
+  animation: hoverFloat 6s ease-in-out infinite;
+}
+
+@keyframes hoverFloat {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}.page-card,
+.project-card,
+.contact-card,
+.about-card {
+  background: #F7EEDC;  /* sandal tone */
+  border-radius: 18px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  padding: 25px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.page-card:hover,
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 26px rgba(0, 0, 0, 0.08);
+}
+
+.sidebar {
+  background: #f8f2e5 !important;   /* sandal / cream */
+  color: #3b3b3b !important;        /* dark text */
+  border-right: 1px solid #e3d8c4;
+}
+
+.sidebar .profile-box h2,
+.sidebar a {
+  color: #3b3b3b !important;
+}
+
+/* Active tab remains teal */
+.sidebar a.active {
+  background: #006f76 !important;
+  color: white !important;
+}
+
+/* Hover effect */
+.sidebar a:hover {
+  background: #eaddc8 !important;   /* light sandal hover */
+}
+
+/* Profile circle border */
+.sidebar .profile-pic {
+  border: 4px solid #006f76 !important; 
+}
+
+/* Mobile sidemenu too */
+.sidebar-closed .sidebar {
+  background: #f8f2e5 !important;
+}
+/* ----- SANDAL THEME (LIGHT MODE ONLY) ----- */
+body:not(.dark-mode) .page-card,
+body:not(.dark-mode) .project-card,
+body:not(.dark-mode) .contact-card,
+body:not(.dark-mode) .about-card {
+  background: #F7EEDC;  /* sandal tone */
+  border-radius: 18px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  padding: 25px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: #15302a; /* darker text for readability on sandal */
+}
+
+body:not(.dark-mode) .page-card:hover,
+body:not(.dark-mode) .project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 26px rgba(0, 0, 0, 0.08);
+}
+
+/* Sidebar (light mode) sandal / cream */
+body:not(.dark-mode) nav,
+body:not(.dark-mode) .sidebar,
+body:not(.dark-mode) .sidebar-closed .sidebar {
+  background: #f8f2e5 !important;   /* sandal / cream */
+  color: #3b3b3b !important;        /* dark text */
+  border-right: 1px solid #e3d8c4;
+}
+
+/* Profile / headings in sidebar (light mode) */
+body:not(.dark-mode) nav h1,
+body:not(.dark-mode) .sidebar .profile-box h2,
+body:not(.dark-mode) nav a {
+  color: #3b3b3b !important;
+}
+
+/* Active tab remains teal (keep original active style) */
+body:not(.dark-mode) nav a.active,
+body:not(.dark-mode) .sidebar a.active {
+  background: #006f76 !important;
+  color: white !important;
+}
+
+/* Hover effect for sidebar in light mode */
+body:not(.dark-mode) nav a:hover,
+body:not(.dark-mode) .sidebar a:hover {
+  background: #eaddc8 !important;   /* light sandal hover */
+  color: #15302a !important;
+}
+
+/* Profile circle border (light mode) */
+body:not(.dark-mode) .profile-pic {
+  border: 4px solid #006f76 !important;
+}
+
+/* Social icons / Connect with me (light mode) */
+body:not(.dark-mode) .connect-title {
+  color: var(--accent);
+}
+body:not(.dark-mode) .connect-icons .icon {
+  color: #ff4fa3; /* keep icons pink as requested */
+}
+
+/* Make sure inputs inside page-cards keep contrast in light mode */
+body:not(.dark-mode) .page-card form input,
+body:not(.dark-mode) .page-card form textarea {
+  background: #ffffff; /* keep inputs white for clarity on sandal */
+  color: #15302a;
+  border: 1px solid #d7cdbf;
+}
+
+/* small responsive tweaks (light mode) */
+@media (max-width: 700px) {
+  body:not(.dark-mode) nav {
+    position: static;
+    background: #f8f2e5 !important;
+  }
+}
+
+

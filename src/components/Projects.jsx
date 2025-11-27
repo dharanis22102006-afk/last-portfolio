@@ -2,6 +2,7 @@ import React from "react";
 import portfolioTitle from "../assets/portfolio-title.png";
 import ecommerceTitle from "../assets/ecommerece.png";
 import systemTitle from "../assets/system.png";
+
 function Projects() {
   return (
     <section id="projects" className="fade-in">
@@ -10,7 +11,7 @@ function Projects() {
       <div className="project-container">
 
         {/* Portfolio Website */}
-        <div className="project-card alive">
+        <div className="project-card alive project-animate">
           <img src={portfolioTitle} className="project-title-img" alt="Portfolio" />
 
           <p>
@@ -19,7 +20,7 @@ function Projects() {
           </p>
 
           <a
-            href="https://dharanis22102006-afk.github.io/portfolio/"
+            href="https://dharanis22102006-afk.github.io/Idea-Portfolio/"
             target="_blank"
             rel="noreferrer"
             className="btn"
@@ -29,12 +30,13 @@ function Projects() {
         </div>
 
         {/* Ecommerce Website */}
-        <div className="project-card alive">
+        <div className="project-card alive project-animate">
           <img src={ecommerceTitle} className="project-title-img" alt="E-commerce" />
 
           <p>
             A clean and responsive e-commerce website offering a smooth shopping
-            experience with organized product listings and showcases the beauty of vintage products.          </p>
+            experience with organized product listings and showcases the beauty of vintage products.
+          </p>
 
           <a
             href="https://dharanis22102006-afk.github.io/E-commerce-website/"
@@ -46,16 +48,17 @@ function Projects() {
           </a>
         </div>
 
-        {/* AASMS System (NEW) */}
-        <div className="project-card alive">
+        {/* AASMS System */}
+        <div className="project-card alive project-animate">
           <img src={systemTitle} className="project-title-img" alt="AASMS system" />
+
           <p>
             AASMS (Automated Attendance & Student Management System) — a system
             designed to manage student attendance, records, and reports efficiently.
           </p>
 
           <a
-            href="#"
+            href="https://dharanis22102006-afk.github.io/AASMS/"
             target="_blank"
             rel="noreferrer"
             className="btn"
