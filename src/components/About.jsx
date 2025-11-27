@@ -18,6 +18,7 @@ function About() {
         <li>CSS</li>
         <li>JavaScript</li>
         <li>Python</li>
+        <li>React</li>
       </ul>
     </section>
   );
