@@ -1,7 +1,7 @@
 import React from "react";
 import portfolioTitle from "../assets/portfolio-title.png";
 import ecommerceTitle from "../assets/ecommerece.png";
-
+import systemTitle from "../assets/system.png";
 function Projects() {
   return (
     <section id="projects" className="fade-in">
@@ -14,7 +14,7 @@ function Projects() {
           <img src={portfolioTitle} className="project-title-img" alt="Portfolio" />
 
           <p>
-            A modern and responsive portfolio website showcasing my skills and
+            A modern and responsive portfolio website showcasing my skills, knowledge and
             journey in web development using HTML, CSS, JavaScript, and React.
           </p>
 
@@ -34,8 +34,7 @@ function Projects() {
 
           <p>
             A clean and responsive e-commerce website offering a smooth shopping
-            experience with organized product listings.
-          </p>
+            experience with organized product listings and showcases the beauty of vintage products.          </p>
 
           <a
             href="https://dharanis22102006-afk.github.io/E-commerce-website/"
@@ -46,6 +45,25 @@ function Projects() {
             🔗 View Live
           </a>
         </div>
+
+        {/* AASMS System (NEW) */}
+        <div className="project-card alive">
+          <img src={systemTitle} className="project-title-img" alt="AASMS system" />
+          <p>
+            AASMS (Automated Attendance & Student Management System) — a system
+            designed to manage student attendance, records, and reports efficiently.
+          </p>
+
+          <a
+            href="#"
+            target="_blank"
+            rel="noreferrer"
+            className="btn"
+          >
+            🔗 View Live
+          </a>
+        </div>
+
       </div>
     </section>
   );

@@ -782,3 +782,15 @@ body.dark-mode footer p {
   transform: scale(1.22);
   opacity: 0.85;
 }
+.page-card {
+  margin-bottom: 40px;
+}
+.project-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 25px rgba(0,255,255,0.2);
+}
+@media(max-width: 600px) {
+  .project-card {
+    width: 100%;
+  }
+}
