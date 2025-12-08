@@ -939,17 +939,24 @@ body:not(.dark-mode) .page-card form textarea {
   }
 }
 /* Continuous fade animation */
+/* SLOWER & SMOOTHER SKILLS ANIMATION */
 @keyframes skillFade {
-  0%   { opacity: 0.2; transform: scale(0.95); }
-  50%  { opacity: 1; transform: scale(1); }
-  100% { opacity: 0.2; transform: scale(0.95); }
+  0%   { opacity: 0.3; transform: scale(0.96); }
+  50%  { opacity: 1;   transform: scale(1.04); }
+  100% { opacity: 0.3; transform: scale(0.96); }
 }
 
-/* Apply animation to all skill chips */
 .skills li {
-  animation: skillFade 3s ease-in-out infinite;
+  animation: skillFade 8s ease-in-out infinite;   /* ← changed from 3s to 8s */
 }
 
+/* Optional: different start times so they don't all move together */
+.skills li:nth-child(1) { animation-delay: 0s; }
+.skills li:nth-child(2) { animation-delay: 1s; }
+.skills li:nth-child(3) { animation-delay: 2s; }
+.skills li:nth-child(4) { animation-delay: 3s; }
+.skills li:nth-child(5) { animation-delay: 4s; }
+.skills li:nth-child(6) { animation-delay: 5s; }
 /* Optional: each skill fades at different times */
 .skills li:nth-child(1) { animation-delay: 0s; }
 .skills li:nth-child(2) { animation-delay: 0.3s; }
