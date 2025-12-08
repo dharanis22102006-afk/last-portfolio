@@ -20,7 +20,7 @@ function Projects() {
           </p>
 
           <a
-            href="https://dharanis22102006-afk.github.io/Idea-Portfolio/"
+            href="http://last-portfolio-r3i5bxd0z-dharani-ss-projects-35a83590.vercel.app"
             target="_blank"
             rel="noreferrer"
             className="btn"

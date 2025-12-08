@@ -1,57 +1,70 @@
 // src/components/Navbar.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import profilePic from "../assets/dharani.jpg";
 
 function Navbar({ sidebarOpen, setSidebarOpen }) {
-  const closeSidebar = () => setSidebarOpen(false);
+  const [activeHash, setActiveHash] = useState("#home"); // DEFAULT: Home is active
 
-  // call when nav item clicked; keeps anchor behavior + manages home-tagline class
+  useEffect(() => {
+    const updateActive = () => {
+      const hash = window.location.hash || "#home";
+      setActiveHash(hash);
+    };
+
+    updateActive();
+    window.addEventListener("hashchange", updateActive);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveHash(`#${entry.target.id}`);
+          }
+        });
+      },
+      { rootMargin: "-30% 0px -60% 0px" }
+    );
+
+    document.querySelectorAll("section[id]").forEach((section) => observer.observe(section));
+
+    return () => {
+      window.removeEventListener("hashchange", updateActive);
+      observer.disconnect();
+    };
+  }, []);
+
   const handleNavClick = (hash) => {
-    // close sidebar (mobile)
-    setSidebarOpen(false);
-
-    // show tagline only when Home clicked
-    if (hash === "#home") {
-      document.body.classList.add("show-home-tagline");
-    } else {
-      document.body.classList.remove("show-home-tagline");
-    }
-
-    // allow default anchor navigation (do NOT call event.preventDefault())
-    // note: If you want to support direct keyboard activation, this still works.
+    setSidebarOpen(false); // close mobile menu
+    setActiveHash(hash);   // instantly move green bar
   };
 
   return (
-    <nav className={sidebarOpen ? "" : "nav-closed"} aria-label="Main navigation">
-      <img src={profilePic} alt="Profile" className="profile-pic" />
-      <h1>DHARANI S</h1>
+    <>
+      <button className="sidebar-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
+        <span className="hamburger-line"></span>
+        <span className="hamburger-line"></span>
+        <span className="hamburger-line"></span>
+      </button>
 
-      <ul>
-        <li>
-          <a href="#home" onClick={() => handleNavClick("#home")}>
-            Home
-          </a>
-        </li>
+      <nav className={sidebarOpen ? "mobile-menu-open" : ""}>
+        <img src={profilePic} alt="Dharani S" className="profile-pic" />
+        <h1>DHARANI S</h1>
 
-        <li>
-          <a href="#about" onClick={() => handleNavClick("#about")}>
-            About
-          </a>
-        </li>
-
-        <li>
-          <a href="#projects" onClick={() => handleNavClick("#projects")}>
-            Projects
-          </a>
-        </li>
-
-        <li>
-          <a href="#contact" onClick={() => handleNavClick("#contact")}>
-            Contact
-          </a>
-        </li>
-      </ul>
-    </nav>
+        <ul>
+          {["home", "about", "projects", "contact"].map((item) => (
+            <li key={item}>
+              <a
+                href={`#${item}`}
+                className={activeHash === `#${item}` ? "active" : ""}
+                onClick={() => handleNavClick(`#${item}`)}
+              >
+                {item.charAt(0).toUpperCase() + item.slice(1)}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </>
   );
 }
 

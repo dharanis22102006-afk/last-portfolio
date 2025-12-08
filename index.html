@@ -36,5 +36,34 @@
 
     <!-- Entry point -->
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+  const toggleBtn = document.querySelector('.sidebar-toggle');
+  const body = document.body;
+
+  toggleBtn.addEventListener('click', () => {
+    if (window.innerWidth <= 867) {
+      body.classList.toggle('mobile-menu-open');
+    } else {
+      body.classList.toggle('sidebar-closed');
+    }
+  });
+
+  // Close mobile menu on outside click or link click
+  document.addEventListener('click', (e) => {
+    if (window.innerWidth <= 867 && body.classList.contains('mobile-menu-open')) {
+      if (!e.target.closest('nav') && !e.target.closest('.sidebar-toggle')) {
+        body.classList.remove('mobile-menu-open');
+      }
+    }
+  });
+
+  document.querySelectorAll('nav a, .nav-btn').forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 867) {
+        body.classList.remove('mobile-menu-open');
+      }
+    });
+  });
+</script>
   </body>
 </html>
